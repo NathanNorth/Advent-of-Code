@@ -9,7 +9,7 @@ public class Day1 {
     }
 
     public static int part1() {
-        int lastNum = Integer.MAX_VALUE;
+        int lastNum = Integer.MAX_VALUE; //lol
         int returnable = 0;
         for(String s: inputLines) {
             int val = Integer.parseInt(s);
@@ -25,6 +25,7 @@ public class Day1 {
         int lastSum = Integer.MAX_VALUE;
         int returnable = 0;
         for(int i = 0; i < inputLines.size(); i++) {
+            //horrible hack from hell
             try {
                int first = Integer.parseInt(inputLines.get(i));
                int second = Integer.parseInt(inputLines.get(i + 1));

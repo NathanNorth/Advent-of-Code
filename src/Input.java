@@ -10,6 +10,11 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Input {
+    /**
+     * Gets the input data as a List of String from the web, or from local if already got from web
+     * @param day
+     * @return
+     */
     public static List<String> getInputLinesWeb(int day) {
         System.out.println("Attempting to get input lines...");
 
