@@ -1,7 +1,7 @@
 import java.util.List;
 
 public class Day1 {
-    public static final List<String> inputLines = Input.getInputLines(1);
+    public static final List<String> inputLines = Input.getInputLinesWeb(1);
 
     public static void main(String[] args) {
         System.out.println("Part one result: " + part1());
