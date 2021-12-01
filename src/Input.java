@@ -23,20 +23,16 @@ public class Input {
         System.out.println("Grabbing online copy!");
 
         try {
-            HttpURLConnection con = (HttpURLConnection) new URL("https://adventofcode.com/2021/day/1/input").openConnection();
+            HttpURLConnection con = (HttpURLConnection) new URL("https://adventofcode.com/2021/day/" + day + "/input").openConnection();
             con.setRequestMethod("GET");
             con.addRequestProperty("Cookie", "session=" + getKeys().get(0));
             Scanner s = new Scanner(con.getInputStream());
             String cache = "";
-            List<String> returnable = new ArrayList<>();
             while (s.hasNextLine()) {
-                String line = s.nextLine();
-
-                returnable.add(line);
-                cache += line + "\n";
+                cache += s.nextLine() + "\n";
             }
             Files.writeString(Path.of("./inputs/day" + day + ".txt"), cache);
-            return returnable;
+            return getInputLinesLocal(day);
         } catch (IOException e) {
             e.printStackTrace();
         }
