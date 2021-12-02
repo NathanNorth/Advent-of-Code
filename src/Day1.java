@@ -8,7 +8,7 @@ public class Day1 {
         System.out.println("Part two result: " + part2());
     }
 
-    public static int part1() {
+    private static int part1() {
         int lastNum = Integer.MAX_VALUE; //lol
         int returnable = 0;
         for(String s: inputLines) {

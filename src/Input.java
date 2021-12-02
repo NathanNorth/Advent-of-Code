@@ -36,6 +36,7 @@ public class Input {
             while (s.hasNextLine()) {
                 cache += s.nextLine() + "\n";
             }
+            Files.createDirectories(Path.of("./inputs"));
             Files.writeString(Path.of("./inputs/day" + day + ".txt"), cache);
             return getInputLinesLocal(day);
         } catch (IOException e) {
