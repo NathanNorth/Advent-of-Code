@@ -44,6 +44,7 @@ public class Day3 {
         return part2Min() * part2Max();
     }
 
+
     private static final int length = 12;
 
     private static int part3Max() {
