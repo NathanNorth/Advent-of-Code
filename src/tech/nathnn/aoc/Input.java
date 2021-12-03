@@ -1,3 +1,5 @@
+package tech.nathnn.aoc;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -16,19 +18,22 @@ public class Input {
      * @return
      */
     public static List<String> getInputLinesWeb(int day) {
+        return getInputLinesWeb(day, 2021);
+    }
+    public static List<String> getInputLinesWeb(int day, int year) {
         System.out.println("Attempting to get input lines...");
 
         //make local copies
-        File exists = new File("./inputs/day" + day + ".txt");
+        File exists = new File("./inputs/day" + day + year + ".txt");
         if (exists.exists()) {
             System.out.println("Using local copy!");
-            return getInputLinesLocal(day);
+            return getInputLinesLocal(day, year);
         }
 
         System.out.println("Grabbing online copy!");
 
         try {
-            HttpURLConnection con = (HttpURLConnection) new URL("https://adventofcode.com/2021/day/" + day + "/input").openConnection();
+            HttpURLConnection con = (HttpURLConnection) new URL("https://adventofcode.com/" + year + "/day/" + day + "/input").openConnection();
             con.setRequestMethod("GET");
             con.addRequestProperty("Cookie", "session=" + getKeys().get(0));
             Scanner s = new Scanner(con.getInputStream());
@@ -37,17 +42,17 @@ public class Input {
                 cache += s.nextLine() + "\n";
             }
             Files.createDirectories(Path.of("./inputs"));
-            Files.writeString(Path.of("./inputs/day" + day + ".txt"), cache);
-            return getInputLinesLocal(day);
+            Files.writeString(Path.of("./inputs/day" + day + year + ".txt"), cache);
+            return getInputLinesLocal(day, year);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    private static List<String> getInputLinesLocal(int day) {
+    private static List<String> getInputLinesLocal(int day, int year) {
         try {
-            return Files.readAllLines(Path.of("./inputs/day" + day + ".txt"));
+            return Files.readAllLines(Path.of("./inputs/day" + day + year + ".txt"));
         } catch (IOException e) {
             e.printStackTrace();
         }

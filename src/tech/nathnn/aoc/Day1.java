@@ -1,3 +1,5 @@
+package tech.nathnn.aoc;
+
 import java.util.List;
 
 public class Day1 {
