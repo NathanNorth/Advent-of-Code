@@ -1,4 +1,4 @@
-package tech.nathnn.aoc;
+package tech.nathann.aoc;
 
 import java.util.ArrayList;
 import java.util.List;

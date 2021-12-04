@@ -1,6 +1,6 @@
-package tech.nathnn.aoc.year2020;
+package tech.nathann.aoc.year2020;
 
-import tech.nathnn.aoc.Input;
+import tech.nathann.aoc.Input;
 
 import java.util.List;
 

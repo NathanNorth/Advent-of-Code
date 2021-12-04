@@ -1,0 +1,23 @@
+plugins {
+    id 'java'
+}
+
+group 'tech.nathann'
+version '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+
+    implementation "io.projectreactor:reactor-core:3.4.12"
+    testImplementation "io.projectreactor:reactor-test:3.4.12"
+
+}
+
+test {
+    useJUnitPlatform()
+}
