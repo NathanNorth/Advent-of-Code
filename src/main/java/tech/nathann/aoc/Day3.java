@@ -21,7 +21,9 @@ public class Day3 {
 
     private static Mono<Long> part1Reactor() {
         return Flux.range(0, inputLines.get(0).length())
-                .flatMap(index -> numZeroes(index)
+                .flatMap(index -> Flux.fromIterable(inputLines)
+                        .filter(line -> Integer.parseInt(line.charAt(index) + "") == 0)
+                        .count()
                         .map(num -> {
                             if(num > inputLines.size() - num) return "0";
                             return "1";
@@ -29,12 +31,6 @@ public class Day3 {
                 .collect(Collectors.joining())
                 .map(str -> Long.parseLong(str, 2))
                 .map(num -> num * (~num & 0b111111111111));
-    }
-
-    private static Mono<Long> numZeroes(int c) {
-        return Flux.fromIterable(inputLines)
-                .filter(line -> Integer.parseInt(line.charAt(c) + "") == 0)
-                .count();
     }
 
     private static int part1() {
