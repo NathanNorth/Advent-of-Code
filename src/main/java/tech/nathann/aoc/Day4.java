@@ -38,38 +38,21 @@ public class Day4 {
             boards.add(new Board(inputLines, i));
         }
 
-        boolean[] hasWon = new boolean[100];
         String[] numbers = inputLines.get(0).split(",");
-        int lastGuy = -1;
         for(String num: numbers) {
             for(Board b: boards) {
                 b.addNum(Integer.parseInt(num));
             }
 
-            for(int i = 0; i < 100; i++) {
+            for(int i = boards.size() - 1; i >= 0; i--) {
                 if(boards.get(i).isBingo()) {
-                    hasWon[i] = true;
-                    if(i == lastGuy)
-                        return boards.get(i).score(Integer.parseInt(num));
-                }
-            }
-            if(countWins(hasWon) == 99) {
-                for(int i = 0; i < 100; i++) {
-                    if(!hasWon[i]) lastGuy = i;
+                    if(boards.size() == 1) return boards.get(i).score(Integer.parseInt(num));
+                    boards.remove(i);
                 }
             }
 
         }
-
         return -1;
-    }
-
-    public static int countWins(boolean[] win) {
-        int count = 0;
-        for(int i = 0; i < win.length; i++) {
-            if(win[i]) count++;
-        }
-        return count;
     }
 }
 class Board {
