@@ -22,7 +22,7 @@ public class Day3 {
     private static Mono<Long> part1Reactor() {
         return Flux.range(0, inputLines.get(0).length())
                 .flatMap(index -> Flux.fromIterable(inputLines)
-                        .filter(line -> Integer.parseInt(line.charAt(index) + "") == 0)
+                        .filter(line -> line.charAt(index) == '0')
                         .count()
                         .map(num -> {
                             if(num > inputLines.size() - num) return "0";
