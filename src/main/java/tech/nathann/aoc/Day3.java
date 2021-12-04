@@ -1,6 +1,10 @@
 package tech.nathann.aoc;
 
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Day3 {
     public static final List<String> inputLines = Input.getInputLinesWeb(3);
@@ -8,10 +12,29 @@ public class Day3 {
     //4375225
     public static void main(String[] args) {
         System.out.println("Part one result: " + part1());
+        System.out.println("Part one reactor: " + part1Reactor().block());
         System.out.println("Part two result: " + part2());
 
         System.out.println(part2Max());
         System.out.println(part2Min());
+    }
+
+    private static Mono<Long> part1Reactor() {
+        return Flux.range(0, inputLines.get(0).length())
+                .flatMap(index -> numZeroes(index)
+                        .map(num -> {
+                            if(num > inputLines.size() - num) return "0";
+                            return "1";
+                        }))
+                .collect(Collectors.joining())
+                .map(str -> Long.parseLong(str, 2))
+                .map(num -> num * (~num & 0b111111111111));
+    }
+
+    private static Mono<Long> numZeroes(int c) {
+        return Flux.fromIterable(inputLines)
+                .filter(line -> Integer.parseInt(line.charAt(c) + "") == 0)
+                .count();
     }
 
     private static int part1() {
