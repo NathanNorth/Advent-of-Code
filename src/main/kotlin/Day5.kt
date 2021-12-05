@@ -2,81 +2,36 @@ import tech.nathann.aoc.Input
 
 val inputData = Input.getInputLinesWeb(5)
 
-//part 2 sol
 fun main() {
-    var sums = Array(1000) {IntArray(1000)}
-    val rows = inputData.map { Line(it) }
-        .filter {it.y1 == it.y2 }
-    val cols  = inputData.map { Line(it) }
-        .filter {it.x1 == it.x2 }
-    val diags  = inputData.map { Line(it) }
-        .filter {it.x1 != it.x2 && it.y1 != it.y2 }
-
-    for(line in rows) {
-        for(x in Math.min(line.x1, line.x2) .. Math.max(line.x1, line.x2)) {
-            sums[x][line.y1] += 1
+    println(sol(1))
+    println(sol(2))
+}
+fun sol(part: Int): Int {
+    val sums = Array(1000) {IntArray(1000)}
+    inputData
+        .map { Line(it) }
+        .filter { if(part == 1) it.x1 == it.x2 || it.y1 == it.y2 else true }
+        .map {
+            it.x1.rangeToGood(it.x2)
+            it.x1.rangeToGood(it.x2).zipOrPair(it.y1.rangeToGood(it.y2)).map { (x, y) ->
+                sums[y][x]++
+            }
         }
-    }
-    for(line in cols) {
-        for(y in Math.min(line.y1, line.y2) .. Math.max(line.y1, line.y2)) {
-            sums[line.x1][y] += 1
-        }
-    }
-    for(diag in diags) {
-        var xs: IntProgression = diag.x1..diag.x2
-        var ys: IntProgression = diag.y1..diag.y2
-
-        if(xs.isEmpty()) xs = diag.x1 downTo diag.x2
-        if(ys.isEmpty()) ys = diag.y1 downTo diag.y2
-
-        for(i in 0 until xs.toList().size) {
-            sums[xs.toList()[i]][ys.toList()[i]]++
-        }
-    }
-
-    var returnable = 0
-    for(r in 0 until 1000) {
-        for(c in 0 until 1000) {
-            if(sums[r][c] >= 2) returnable++
-        }
-    }
-    println(returnable)
+    return sums.flatMap { arr -> arr.map { it >= 2 } }.count {it}
 }
 
-//actually part 1 solution lmao
-fun main2() {
-    var sums = Array(1000) {IntArray(1000)}
-    val rows = inputData.map { Line(it) }
-        .filter {it.y1 == it.y2 }
-    val cols  = inputData.map { Line(it) }
-        .filter {it.x1 == it.x2 }
+fun Int.rangeToGood(to: Int): Iterable<Int> = if(this < to) this..to else this downTo to
 
-    for(line in rows) {
-        for(x in Math.min(line.x1, line.x2) .. Math.max(line.x1, line.x2)) {
-            sums[x][line.y1] += 1
-        }
-    }
-    for(line in cols) {
-        for(y in Math.min(line.y1, line.y2) .. Math.max(line.y1, line.y2)) {
-            sums[line.x1][y] += 1
-        }
-    }
-
-    var returnable = 0
-    for(r in 0 until 1000) {
-        for(c in 0 until 1000) {
-            if(sums[r][c] >= 2) returnable++
-        }
-    }
-    println(returnable)
+fun <A, B> Iterable<A>.zipOrPair(iterable: Iterable<B>): List<Pair<A, B>> {
+    if(iterable.toList().size == 1) return this.map { it to iterable.first()}
+    if(this.toList().size == 1) return  iterable.map { this.first() to it }
+    return this.zip(iterable)
 }
-class Line(val input: String) {
+
+data class Line(val input: String) {
     private val nums = input.split(Regex(",|( -> )"))
     val x1 = nums[0].toInt()
     val y1 = nums[1].toInt()
     val x2 = nums[2].toInt()
     val y2 = nums[3].toInt()
-    override fun toString(): String {
-        return "Line(input='$input', nums=$nums, x1=$x1, y1=$y1, x2=$x2, y2=$y2)"
-    }
 }
