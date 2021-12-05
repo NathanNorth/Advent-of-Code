@@ -6,7 +6,7 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Day3 {
+public class    Day3 {
     public static final List<String> inputLines = Input.getInputLinesWeb(3);
 
     //4375225
