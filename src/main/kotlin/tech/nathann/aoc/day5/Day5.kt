@@ -1,3 +1,5 @@
+package tech.nathann.aoc.day5
+
 import tech.nathann.aoc.Input
 
 val inputData = Input.getInputLinesWeb(5)
@@ -19,11 +21,11 @@ fun sol(part: Int): Int {
                 sums[y][x]++
             }
         }
-    return sums.flatMap { arr -> arr.map { it >= 2 } }.count {it}
+    return sums.sumOf { it.count { it >= 2 } }
 }
 //solve this a more reasonable way
 fun solSane(part: Int): Int {
-    val sums = Array(1000) {IntArray(1000)}
+    val sums = List(1000) {MutableList(1000) {0} }
     inputData
         .map { Line(it) }
         .map {
@@ -39,7 +41,7 @@ fun solSane(part: Int): Int {
                 }
             }
         }
-    return sums.flatMap { arr -> arr.map { it >= 2 } }.count {it}
+    return sums.flatten().count() {it >= 2}
 }
 
 //does what rangeTo really should do. creates an IntProgression that moves towards the end value, regardless of direciton
