@@ -5,8 +5,8 @@ import tech.nathann.aoc.Input
 val inputData = Input.getInputLinesWeb(6)
 
 fun main() {
+    println(doTheThing(80))
     println(doTheThing(256))
-    //println(doTheThing(256))
 }
 fun doTheThing(days: Int): Long {
     val fishes = inputData[0].split(",").map { it.toInt() }
@@ -14,8 +14,7 @@ fun doTheThing(days: Int): Long {
     for(fish in fishes) {
         numFishes[fish]++
     }
-    for(days in 0 until days) {
-        println(days)
+    for(day in 0 until days) {
         val newFishes = Array(9) {0L}
         newFishes[6] = numFishes[0] + numFishes[7]
         newFishes[7] = numFishes[8]
@@ -27,5 +26,4 @@ fun doTheThing(days: Int): Long {
         numFishes = newFishes
     }
     return numFishes.sum()
-    //1859990519
 }
