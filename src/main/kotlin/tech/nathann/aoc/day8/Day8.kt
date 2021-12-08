@@ -32,12 +32,13 @@ fun findValidDecoderFor(data: List<String>): Decoder = allDecoders
         .first { decoder -> data.map { decoder.decode(it) != null }.all { it } } //find first decoder which doesn't fail
 
 //warning: internet code
-fun String.permute(str: String = ""):List<String> = if(isEmpty()) listOf(str) else flatMapIndexed {i, c -> removeRange(i, i + 1).permute(str + c)}
+fun String.permute(str: String = ""): List<String> =
+    if(isEmpty()) listOf(str) else flatMapIndexed {i, c -> removeRange(i, i + 1).permute(str + c)}
 
 val allDecoders = "abcdefg".permute().map { Decoder(it) }
-class Decoder(val master: String) {
+class Decoder(master: String) {
     private val decode = HashMap<Char, Char>()
-    val intMap = mapOf(
+    private val intMap = mapOf(
         "abcefg" to 0,
         "cf" to 1,
         "acdeg" to 2,
@@ -53,7 +54,7 @@ class Decoder(val master: String) {
         master.toCharArray().zip("abcdefg".toCharArray()).map { (key, default) ->  decode.put(key, default)}
     }
     fun decode(key: String): Int? {
-        val str = key.toCharArray().map { decode.get(it) ?: error("Bad map")}
+        val str = key.toCharArray().map { decode[it] ?: error("Bad map")}
             .sorted()
             .joinToString("")
 
