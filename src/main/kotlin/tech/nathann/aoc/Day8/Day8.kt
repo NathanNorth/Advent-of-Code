@@ -56,3 +56,10 @@ data class Line(val data: List<String>, val output: List<String>) {
         }
     }
 }
+class Decoder(val master: String) {
+    val decode = HashMap<Char, Char>()
+    init {
+        master.toCharArray().zip("abcdefg".toCharArray()).map { (key, default) ->  decode.put(key, default)}
+    }
+
+}
