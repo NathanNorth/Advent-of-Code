@@ -9,35 +9,19 @@ fun main() {
 }
 fun part1(): Int {
     val arr = inputData.map { it.toCharArray().toList().map { it.digitToInt() }.toMutableList() }.toMutableList()
-
-    var list = arrayListOf<Int>()
-    var returnable = 1
-    for (x in 0 until arr.size) {
-        for(y in 0 until arr[0].size) {
-            if(arr.isLow(x, y) > 0) {
-                //println("Testing basin size of " + x +" and " + y + ":" + arr.basinSize(x, y))
-                list.add(arr.basinSize(x, y))
-            }
-        }
-    }
-    list.sort()
-    for(i in list.size - 1 downTo list.size - 3) {
-        returnable *= list[i]
-    }
-
-    return returnable
+    return arr
+        .filter { (x, y) -> arr.isLow(x, y) > 0 }
+        .map { (x, y) -> arr.basinSize(x, y) }
+        .sorted()
+        .reversed()
+        .subList(0, 3)
+        .fold(initial = 1) {base, it -> base * it}
 }
 
 fun MutableList<MutableList<Int>>.isLow(x: Int, y: Int):Int {
-    var pairs = listOf(x + 1 to y, x - 1 to y, x to y + 1, x to y - 1)
-    var isLow = true
-    for(pair in pairs) {
-        if(pair.first >= 0 && pair.first < this.size) {
-            if(pair.second >= 0 && pair.second < this[0].size) {
-                isLow = isLow && this[x][y] < this[pair.first][pair.second]
-            }
-        }
-    }
+    val isLow = getValidNeighbors(x, y)
+        .map { (xAdjacent, yAdjacent) -> this[x][y] < this[xAdjacent][yAdjacent]}
+        .fold(initial = true) {base, it -> base && it}
 
     if(isLow) {
         return 1 + this[x][y]
@@ -45,11 +29,13 @@ fun MutableList<MutableList<Int>>.isLow(x: Int, y: Int):Int {
     return 0
 }
 
+fun MutableList<MutableList<Int>>.getValidNeighbors(x: Int, y: Int) =
+    listOf(x + 1 to y, x - 1 to y, x to y + 1, x to y - 1)
+        .filter { (x, y) -> x >= 0 && x < this.size && y >= 0 && y < this[0].size }
+
 fun MutableList<MutableList<Int>>.basinSize(x: Int, y: Int): Int {
-    if(x < 0 || x >= this.size) return 0
-    if(y < 0 || y >= this[0].size) return 0
     if(this[x][y] == 9 || this[x][y] == -1) return 0
     this[x][y] = -1
-    val neighbors = listOf(x + 1 to y, x - 1 to y, x to y + 1, x to y - 1).map { (x, y) -> basinSize(x, y) }.sum()
+    val neighbors = getValidNeighbors(x, y).map { (x, y) -> basinSize(x, y) }.sum()
     return 1 + neighbors
 }
