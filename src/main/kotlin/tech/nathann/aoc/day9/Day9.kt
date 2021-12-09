@@ -6,12 +6,18 @@ var inputData = Input.getInputLinesWeb(9)
 
 fun main() {
     println(part1())
+    println(part2())
 }
 fun part1(): Int {
     val arr = inputData.map { it.toCharArray().toList().map { it.digitToInt() }.toMutableList() }.toMutableList()
     return arr
-        .filter { (x, y) -> arr.isLow(x, y) > 0 }
-        .map { (x, y) -> arr.basinSize(x, y) }
+        .flatMapIndexed { r, it -> it.mapIndexed { c, it -> arr.isLow(r, c)} }
+        .sum()
+}
+fun part2(): Int {
+    val arr = inputData.map { it.toCharArray().toList().map { it.digitToInt() }.toMutableList() }.toMutableList()
+    return arr
+        .flatMapIndexed { r, it -> it.mapIndexed { c, it -> arr.basinSize(r, c)} }
         .sorted()
         .reversed()
         .subList(0, 3)
@@ -21,6 +27,7 @@ fun part1(): Int {
 fun MutableList<MutableList<Int>>.isLow(x: Int, y: Int):Int {
     val isLow = getValidNeighbors(x, y)
         .map { (xAdjacent, yAdjacent) -> this[x][y] < this[xAdjacent][yAdjacent]}
+        .ifEmpty { listOf(false) }
         .fold(initial = true) {base, it -> base && it}
 
     if(isLow) {
