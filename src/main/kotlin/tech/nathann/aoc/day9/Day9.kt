@@ -9,18 +9,17 @@ fun main() {
     println(part2())
 }
 fun part1(): Int {
-    val arr = inputData.map { it.toCharArray().toList().map { it.digitToInt() }.toMutableList() }.toMutableList()
+    val arr = inputData.map { it.map { it.digitToInt() }.toMutableList() }.toMutableList()
     return arr
         .flatMapIndexed { r, it -> it.mapIndexed { c, it -> arr.isLow(r, c)} }
         .sum()
 }
 fun part2(): Int {
-    val arr = inputData.map { it.toCharArray().toList().map { it.digitToInt() }.toMutableList() }.toMutableList()
+    val arr = inputData.map { it.map { it.digitToInt() }.toMutableList() }.toMutableList()
     return arr
         .flatMapIndexed { r, it -> it.mapIndexed { c, it -> arr.basinSize(r, c)} }
-        .sorted()
-        .reversed()
-        .subList(0, 3)
+        .sortedDescending()
+        .take(3)
         .fold(initial = 1) {base, it -> base * it}
 }
 
