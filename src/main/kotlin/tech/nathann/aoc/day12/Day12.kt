@@ -5,7 +5,7 @@ import tech.nathann.aoc.Input
 var inputData = Input.getInputLinesWeb(12)
 
 fun main() {
-    val map = HashMap<String, ArrayList<String>>()
+    val map = HashMap<String, MutableList<String>>()
 
     inputData.map {
         val arr = it.split("-")
@@ -16,7 +16,7 @@ fun main() {
     println(map.numPaths(2))
 }
 
-fun HashMap<String, ArrayList<String>>.numPaths(part: Int, current: String = "start", placesVisited: ArrayList<String> = ArrayList()): Int {
+fun Map<String, List<String>>.numPaths(part: Int, current: String = "start", placesVisited: MutableList<String> = ArrayList()): Int {
     if(placesVisited.numDupes() >= part) return 0
     if(current == "end") return 1
 
@@ -32,4 +32,4 @@ fun HashMap<String, ArrayList<String>>.numPaths(part: Int, current: String = "st
         .sumOf { numPaths(part, it, copy) }
 }
 
-fun <E> ArrayList<E>.numDupes() = this.size - distinct().size
+fun <E> MutableList<E>.numDupes() = this.size - distinct().size
