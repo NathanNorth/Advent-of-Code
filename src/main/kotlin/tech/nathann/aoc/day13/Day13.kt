@@ -14,23 +14,6 @@ fun main() {
         it.split(",").map { it.toInt() }
     } .map { (x, y) -> arr[y][x]++ }
 
-//    println(inputData.filter { it.contains("fold") })
-//
-//    val foldX = inputData.filter { it.contains("fold") }
-//        .map { it.split("=")[1].toInt() }
-//        .take(1)
-//
-//    foldX.map {  }
-
-//    for (i in arr.indices) {
-//        println(arr[i].toList().toString())
-//    }
-//    println()
-
-//    val foldY = inputData.filter { it.contains("fold") }
-//        .map { it.split("=")[1].toInt() }
-//        .take(1)
-
     inputData.filter { it.contains("fold") }
         //.take(1)
         .map {
