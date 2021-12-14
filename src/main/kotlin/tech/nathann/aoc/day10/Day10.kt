@@ -14,7 +14,6 @@ fun part1(): Int {
 }
 fun part2(): Long {
     val filtered =  inputData.filter { getCorrupt(it) == 0 }
-
     return filtered.map { completionScore(it) }
         .sorted()[filtered.size / 2]
 }

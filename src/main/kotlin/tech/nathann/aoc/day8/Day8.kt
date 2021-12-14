@@ -28,6 +28,7 @@ data class Line(val data: List<String>, val output: List<String>) {
     val decode = findValidDecoderFor(data)
     val sum = output.map { decode.decode(it).toString() }.joinToString("").toInt()
 }
+
 fun findValidDecoderFor(data: List<String>): Decoder = allDecoders
         .first { decoder -> data.map { decoder.decode(it) != null }.all { it } } //find first decoder which doesn't fail
 
